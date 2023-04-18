@@ -108,6 +108,8 @@ disable=
     format,
     # We anticipate #3512 where it will become optional
     fixme,
+    consider-using-namedtuple-or-dataclass,
+    import-error,
 
 
 [REPORTS]
