@@ -1,4 +1,6 @@
-
+"""
+Base classes for Car Race game
+"""
 import pygame
 
 # define constants
@@ -25,6 +27,7 @@ TILE_NAMES = {'f-o': 4,
 
 
 class Race:
+    """ class for play a race between several cars created by different players """
     def __init__(self):
         # initialize and create screen
         pygame.init()
@@ -34,7 +37,11 @@ class Race:
         self.clock = pygame.time.Clock()
 
     def load_track(self):
-        # Create the track
+        """
+        loads the specified track data from a file
+        the text file contains tile codes separated by space character
+        the rows of text file will be rendered under each other
+        """
         # todo: read from file
         # todo: create a code table
         self.track = [['bfi', 'f-o', 'f-o', 'f-o', 'f-o', 'f-o', 'jfi'],
@@ -46,6 +53,7 @@ class Race:
         self.track_height = len(self.track)
 
     def show_background(self):
+        """ generate the background from tile png files, depending on the track description file """
         # todo: load and parse xml file
         # todo: cut images from sheet as track needs
         for y in range(self.track_height):
@@ -54,11 +62,16 @@ class Race:
                 self.screen.blit(road, (x * 128, y * 128))
 
     def get_surface(self, x, y):
+        """
+        examine the surface material on a specified position
+        this is used by the car control functions
+        """
         # todo: check the track surface az specific position
         # returns the surface enumaration
         return 'a'
 
     def start(self):
+        """ main game loop, start the race, and control the cars """
         self.running = True
 
         # game loop
