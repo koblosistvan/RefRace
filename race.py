@@ -35,6 +35,7 @@ class Race:
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.show_background()
         self.clock = pygame.time.Clock()
+        self.running = False
 
     def load_track(self):
         """
