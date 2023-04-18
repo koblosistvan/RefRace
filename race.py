@@ -31,9 +31,18 @@ class Race:
     def __init__(self):
         # initialize and create screen
         pygame.init()
+
+        # track data
+        self.track = []
+        self.track_width = 0
+        self.track_height = 0
         self.load_track()
+
+        # playground screen
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.show_background()
+
+        # etc
         self.clock = pygame.time.Clock()
         self.running = False
 
