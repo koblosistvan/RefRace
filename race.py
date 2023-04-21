@@ -1,6 +1,3 @@
-"""
-Base classes for Car Race game
-"""
 import pygame
 
 # define constants
@@ -27,31 +24,18 @@ TILE_NAMES = {'f-o': 4,
 
 
 class Race:
-    """ class for play a race between several cars created by different players """
     def __init__(self):
         # initialize and create screen
         pygame.init()
-
-        # track data
-        self.track = []
-        self.track_width = 0
-        self.track_height = 0
         self.load_track()
-
-        # playground screen
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.show_background()
-
-        # etc
         self.clock = pygame.time.Clock()
-        self.running = False
+        self.all_sprites_list = pygame.sprite.Group()
+
 
     def load_track(self):
-        """
-        loads the specified track data from a file
-        the text file contains tile codes separated by space character
-        the rows of text file will be rendered under each other
-        """
+        # Create the track
         # todo: read from file
         # todo: create a code table
         self.track = [['bfi', 'f-o', 'f-o', 'f-o', 'f-o', 'f-o', 'jfi'],
@@ -63,7 +47,6 @@ class Race:
         self.track_height = len(self.track)
 
     def show_background(self):
-        """ generate the background from tile png files, depending on the track description file """
         # todo: load and parse xml file
         # todo: cut images from sheet as track needs
         for y in range(self.track_height):
@@ -72,16 +55,11 @@ class Race:
                 self.screen.blit(road, (x * 128, y * 128))
 
     def get_surface(self, x, y):
-        """
-        examine the surface material on a specified position
-        this is used by the car control functions
-        """
         # todo: check the track surface az specific position
         # returns the surface enumaration
         return 'a'
 
     def start(self):
-        """ main game loop, start the race, and control the cars """
         self.running = True
 
         # game loop
@@ -94,4 +72,22 @@ class Race:
                     self.running = False
 
             # update screen
+            self.all_sprites_list.draw(self.screen)
             pygame.display.update()
+
+
+class Car (pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.skin = "car_black_small_1.png"
+        self.size = ()
+        self.pos = (100, 100)
+        self.speed = 0
+        self.direction = 0
+        self.image = pygame.Surface([70, 70])
+        car_texture = pygame.image.load(f'PNG\Cars\car_black_small_1.png')
+        self.image.blit(car_texture, (0, 0))
+        self.rect = self.image.get_rect()
+
+
+
