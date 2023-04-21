@@ -86,8 +86,10 @@ class Car (pygame.sprite.Sprite):
         self.direction = 0
         self.image = pygame.Surface([70, 70])
         car_texture = pygame.image.load(f'PNG\Cars\car_black_small_1.png')
+        car_texture = pygame.transform.rotate(car_texture, -90)
+        self.image.set_colorkey((0, 0, 0))
         self.image.blit(car_texture, (0, 0))
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center= self.pos)
 
 
 
