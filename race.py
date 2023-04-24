@@ -80,16 +80,13 @@ class Car (pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.skin = "car_black_small_1.png"
-        self.size = ()
         self.pos = (100, 100)
         self.speed = 0
         self.direction = 0
-        self.image = pygame.Surface([70, 70])
-        car_texture = pygame.image.load(f'PNG\Cars\car_black_small_1.png')
-        car_texture = pygame.transform.rotate(car_texture, -90)
+        self.image = pygame.image.load(f'PNG\Cars\car_black_small_1.png')
+        self.image = pygame.transform.rotate(self.image, -90)
         self.image.set_colorkey((0, 0, 0))
-        self.image.blit(car_texture, (0, 0))
-        self.rect = self.image.get_rect(center= self.pos)
+        self.rect = self.image.get_rect(center=self.pos)
 
 
 
