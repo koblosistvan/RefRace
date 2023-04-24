@@ -1,4 +1,7 @@
+import numpy
 import pygame
+from numpy import array
+import math
 
 # define constants
 WINDOW_WIDTH = 896
@@ -20,7 +23,7 @@ TILE_NAMES = {'f-o': 4,
               'bls': 28,
               'l-o': 40,
               'jfs': 45,
-              'bfs': 46,}
+              'bfs': 46, }
 
 
 class Race:
@@ -29,10 +32,10 @@ class Race:
         pygame.init()
         self.load_track()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.show_background()
         self.clock = pygame.time.Clock()
         self.all_sprites_list = pygame.sprite.Group()
-
 
     def load_track(self):
         # Create the track
@@ -43,6 +46,7 @@ class Race:
                       ['b-o', 'j-o', 'fff', 'fff', 'fff', 'b-o', 'j-o'],
                       ['b-o', 'jfs', 'f-o', 'f-o', 'f-o', 'bfs', 'j-o'],
                       ['bli', 'l-o', 'l-o', 'l-o', 'l-o', 'l-o', 'jli']]
+
         self.track_width = len(self.track[0])
         self.track_height = len(self.track)
 
@@ -52,7 +56,7 @@ class Race:
         for y in range(self.track_height):
             for x in range(self.track_width):
                 road = pygame.image.load(f'track/road_asphalt{TILE_NAMES[self.track[y][x]]:02d}.png')
-                self.screen.blit(road, (x * 128, y * 128))
+                self.background.blit(road, (x * 128, y * 128))
 
     def get_surface(self, x, y):
         # todo: check the track surface az specific position
@@ -72,6 +76,8 @@ class Race:
                     self.running = False
 
             # update screen
+            self.all_sprites_list.update()
+            self.screen.blit(self.background, (0, 0))
             self.all_sprites_list.draw(self.screen)
             pygame.display.update()
 
@@ -80,13 +86,26 @@ class Car (pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.skin = "car_black_small_1.png"
-        self.pos = (100, 100)
-        self.speed = 0
-        self.direction = 0
+        self.pos = numpy.array([100.0, 100.0])
+        self.speed = 10
+        self.direction = 10
         self.image = pygame.image.load(f'PNG\Cars\car_black_small_1.png')
         self.image = pygame.transform.rotate(self.image, -90)
         self.image.set_colorkey((0, 0, 0))
         self.rect = self.image.get_rect(center=self.pos)
+
+    def speed_vector(self):
+        return numpy.array([self.speed * math.cos(math.radians(self.direction)),
+                            self.speed * math.sin(math.radians(self.direction))])
+
+    def update(self):
+        self.pos += self.speed_vector()
+        self.rect = self.image.get_rect(center=self.pos)
+
+
+
+
+
 
 
 
